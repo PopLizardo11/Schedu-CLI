@@ -23,6 +23,16 @@ sample = [
     (1,4),
 ]
 
+sample_2 = [
+    (1,4),
+    (1,3),
+    (1,2),
+    (1,4),
+    (1,7),
+    (1,8),
+    (1,5),
+]
+
 
 to_columns = [
     [1,2,3,4,5],
@@ -52,29 +62,46 @@ def assign_day_offs(hrs):
             hrs = [mark_day(day, h, day_off) for day, h in enumerate(hrs)]
     return hrs
 
-def parse_columns(list, no_tup=False):
+def parse_columns(list):
     # only works on same size lists
     # this assumes that the input is an nxn matrix
     columns = [[] for i in range(len(list[0]))]
 
     for hrs in list:
         for i, h in enumerate(hrs):
-            columns[i].append(h) if no_tup else columns[i].append(h[0])
+            columns[i].append(h) 
  
     return columns
 
-def eval_sched(usable_hrs, init_hrs):
+def extract_hrs(list):
+    extracted_hrs = [[] for i in range(len(list))]
+    for i, hrs in enumerate(list):
+        for h in hrs:
+            if h[1] != 0:
+                extracted_hrs[i].append(h[0]) 
+            continue
+    
+    return extracted_hrs
+
+# print(parse_columns(sample_list))
+# print(extract_hrs(parse_columns(sample_list)))
+
+def eval_sched(extracted_hrs, req_hrs):
     hrs_sum = []
-    for hrs in usable_hrs:
+    for hrs in extracted_hrs:
         hrs_sum.append(sum(hrs))
-    return True if hrs_sum == init_hrs else False
+    return True if hrs_sum == req_hrs else False
 
 def schedule(hrs):
+    req_hrs = [h[1] for h in hrs]
     sched = []
-    columns = []
-    for i in range(7):
+    while True:
         hrs = assign_day_offs(hrs)
         sched.append(hrs)
+        curr_col = parse_columns(sched)
+        extracted_hrs = extract_hrs(curr_col)
+        if eval_sched(extracted_hrs, req_hrs):
+            break
         hrs = [minus_step(h) for h in hrs]
     return sched
 
@@ -91,4 +118,6 @@ def present_sched(sched):
 
 # print(assign_day_offs(sample))
 new_sched = schedule(sample)
+sched_2 = schedule(sample_2)
 # present_sched(new_sched) 
+present_sched(sched_2)
