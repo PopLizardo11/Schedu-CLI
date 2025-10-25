@@ -33,6 +33,16 @@ sample_2 = [
     (1,5),
 ]
 
+sample_3 = [
+    (1,40),
+    (1,40),
+    (1,32),
+    (1,32),
+    (1,24),
+    (1,16),
+    (1,8),
+]
+
 
 to_columns = [
     [1,2,3,4,5],
@@ -105,9 +115,11 @@ def schedule(hrs):
         hrs = [minus_step(h) for h in hrs]
     return sched
 
-def present_sched(sched):
-    for hrs in sched:
-        stf = ""
+def present_sched(sched, hrs):
+    req_hrs = [h[1] for h in hrs]
+    print(f"{req_hrs} \n")
+    for i, hrs in enumerate(sched):
+        stf = f"Staff {i+1}: "
         for h in hrs:
             if h[0] == 0:
                 stf += (f"{h[1]}* ")
@@ -119,5 +131,6 @@ def present_sched(sched):
 # print(assign_day_offs(sample))
 new_sched = schedule(sample)
 sched_2 = schedule(sample_2)
+sched_3 = schedule(sample_3)
 # present_sched(new_sched) 
-present_sched(sched_2)
+present_sched(sched_3, sample_3)
