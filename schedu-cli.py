@@ -1,22 +1,27 @@
 # update the algorithm from time to time
 # function for cyclical scheduling (two consecutive days)
 
+sample_list = [
+    [
+        (1,5),(1,6),(1,7),(1,5),(1,8),(1,9),(1,4),
+],
+    [
+        (1,5),(1,6),(1,7),(1,5),(1,8),(1,9),(1,4),
+],
+    [
+        (1,5),(1,6),(1,7),(1,5),(1,8),(1,9),(1,4),
+],
+]
+
 sample = [
-    [
-        (0,5),(0,6),(0,7),(0,5),(0,8),(0,9),(0,4),
-],
-    [
-        (0,5),(0,6),(0,7),(0,5),(0,8),(0,9),(0,4),
-],
-[
-    (0,5),
-    (0,6),
-    (0,7),
-    (0,5),
-    (0,8),
-    (0,9),
-    (0,4),
-],]
+    (1,5),
+    (1,6),
+    (1,7),
+    (1,5),
+    (1,8),
+    (1,9),
+    (1,4),
+]
 
 
 to_columns = [
@@ -29,10 +34,10 @@ to_columns = [
 ]
 
 def mark_day(day, h, day_off):
-    return (1, h[1]) if day in day_off else (0, h[1])
+    return (0, h[1]) if day in day_off else (1, h[1])
 
 def minus_step(h):
-    return (h[0], h[1]-1) if h[0] == 0 and h[1] != 0 else (h[0], h[1])
+    return (h[0], h[1]-1) if (h[0] == 1 and h[1] != 0) else (h[0], h[1])
 
 def assign_day_offs(hrs):
     day_count = len(hrs)
@@ -77,7 +82,7 @@ def present_sched(sched):
     for hrs in sched:
         stf = ""
         for h in hrs:
-            if h[0] == 1:
+            if h[0] == 0:
                 stf += (f"{h[1]}* ")
                 continue
             stf += (f"{h[1]} ")
@@ -85,5 +90,5 @@ def present_sched(sched):
 
 
 # print(assign_day_offs(sample))
-# new_sched = schedule(sample)
+new_sched = schedule(sample)
 # present_sched(new_sched) 
