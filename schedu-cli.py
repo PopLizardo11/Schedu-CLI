@@ -122,7 +122,7 @@ def present_sched(sched, hrs):
         stf = f"Staff {i+1}: "
         for h in hrs:
             if h[0] == 0:
-                stf += (f"{h[1]}* ")
+                stf += (f"[{h[1]}] ")
                 continue
             stf += (f"{h[1]} ")
         print(stf)
