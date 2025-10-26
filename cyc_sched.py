@@ -1,5 +1,7 @@
 # update the algorithm from time to time
 # function for cyclical scheduling (two consecutive days)
+from tabulate import tabulate
+
 
 sample_list = [
     [
@@ -127,10 +129,30 @@ def present_sched(sched, hrs):
             stf += (f"{h[1]} ")
         print(stf)
 
+def present_tab_sched(sched, hrs):
+    req_hrs = ["" for h in hrs]
+    req_hrs = ["Staff"] + req_hrs
+    sched_hrs = [[] for h in sched]
+    for i, hrs in enumerate(sched):
+        sched_hrs[i].append(i+1)
+        for h in hrs:
+            sched_hrs[i].append(h[1])
+
+    table = tabulate(
+        sched_hrs,
+        headers=req_hrs,
+        tablefmt="pipe",
+    )
+
+    print(table)
+
+present_tab_sched(schedule(sample), sample)
 
 # print(assign_day_offs(sample))
-new_sched = schedule(sample)
-sched_2 = schedule(sample_2)
-sched_3 = schedule(sample_3)
-# present_sched(new_sched) 
-present_sched(sched_3, sample_3)
+# new_sched = schedule(sample)
+# sched_2 = schedule(sample_2)
+# sched_3 = schedule(sample_3)
+# # present_sched(new_sched) 
+# present_sched(sched_2, sample_2)
+# present_sched(sched_3, sample_3)
+
