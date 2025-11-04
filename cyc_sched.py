@@ -149,16 +149,24 @@ def present_tab_sched(sched, hrs):
 
     print(Fore.YELLOW + table)
 
-# Custom table function
+def total_staff_days():
+    pass
+
+def expected_full_time():
+    pass
+
+def count_status_types() -> dict[str, int]:
+    pass
 
 def find_ideal_spacing(sched):
     pass
 
+# Custom table function
 def present_table_sched(sched, hrs):
     pass
 
 # Test functions
-present_tab_sched(schedule(sample), sample)
+# present_tab_sched(schedule(sample), sample)
 
 # print(assign_day_offs(sample))
 # new_sched = schedule(sample)
