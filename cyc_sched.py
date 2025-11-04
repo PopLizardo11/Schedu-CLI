@@ -1,5 +1,8 @@
 # update the algorithm from time to time
 # function for cyclical scheduling (two consecutive days)
+# from tabulate import tabulate
+from typing import *
+from colorama import Fore, Back, Style, init
 from tabulate import tabulate
 
 
@@ -66,7 +69,7 @@ def assign_day_offs(hrs):
     least = hrs[0][1] + hrs[1][1]
     day_off = (0, 1)
     for i in range(day_count):
-        curr = hrs[i][1] + hrs[(i+1) if i+1 != day_count else 0][1]
+        curr = hrs[i][1] + hrs[(i+1) if i+1 != day_count else 0][1] 
         if curr < least:
             least = curr
             day_off = (i, (i+1) if i+1 != day_count else 0)
@@ -144,8 +147,17 @@ def present_tab_sched(sched, hrs):
         tablefmt="pipe",
     )
 
-    print(table)
+    print(Fore.YELLOW + table)
 
+# Custom table function
+
+def find_ideal_spacing(sched):
+    pass
+
+def present_table_sched(sched, hrs):
+    pass
+
+# Test functions
 present_tab_sched(schedule(sample), sample)
 
 # print(assign_day_offs(sample))
