@@ -134,7 +134,7 @@ def present_sched(sched, hrs):
 
 def present_tab_sched(sched, hrs):
     req_hrs = ["" for h in hrs]
-    req_hrs = ["Staff"] + req_hrs
+    req_hrs = ["Employee"] + req_hrs
     sched_hrs = [[] for h in sched]
     for i, hrs in enumerate(sched):
         sched_hrs[i].append(i+1)
@@ -166,8 +166,7 @@ def find_ideal_sizes(sched: list[list[tuple[int]]]) -> list[int]:
     len_columns: list[list[int]] =  parse_columns(str_sched)
     
     # finding the largest length
-    sched_size = len(sched)
-    ideal_sizes: list[int] = [len(str(sched_size)), ]
+    ideal_sizes: list[int] = []
     for sizes in len_columns:
         max_size = sizes[0]
         for size in sizes:
@@ -177,13 +176,15 @@ def find_ideal_sizes(sched: list[list[tuple[int]]]) -> list[int]:
     return ideal_sizes
 
 # Custom table function
+# the sizing is still done
+# can color the day offs
 def present_table_sched(sched: list[list[tuple[int]]], hrs: list[tuple[int]]) -> None:
-    pass    
+    pass
 
 # TEST
 
 print(find_ideal_sizes(sample_list))
-# present_tab_sched(schedule(sample_3), sample_3)
+present_tab_sched(schedule(sample), sample)
 
 # print(assign_day_offs(sample))
 # new_sched = schedule(sample)
