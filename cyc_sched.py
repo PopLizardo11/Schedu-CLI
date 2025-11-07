@@ -40,7 +40,7 @@ sample_2 = [
 
 sample_3 = [
     (1,40),
-    (1,40),
+    (1,100),
     (1,32),
     (1,32),
     (1,24),
@@ -158,15 +158,31 @@ def expected_full_time():
 def count_status_types() -> dict[str, int]:
     pass
 
-def find_ideal_spacing(sched):
-    pass
+def find_ideal_sizes(sched: list[list[tuple[int]]]) -> list[int]:
+    str_sched: list[list[tuple[int]]] = [[] for n in range(len(sched))]
+    for i, hrs in enumerate(sched):
+        for h in hrs:
+            str_sched[i].append(len(str(h[1])))
+    len_columns: list[list[int]] =  parse_columns(str_sched)
+    
+    # finding the largest length
+    ideal_sizes: list[int] = [len(sched), ]
+    for sizes in len_columns:
+        max_size = sizes[0]
+        for size in sizes:
+            max_size = size if size > max_size else max_size
+        ideal_sizes.append(max_size)
+    
+    return ideal_sizes
 
 # Custom table function
-def present_table_sched(sched, hrs):
+def present_table_sched(sched: list[list[tuple[int]]], hrs: list[tuple[int]]) -> str:
     pass
 
-# Test functions
-# present_tab_sched(schedule(sample), sample)
+# TEST
+
+print(find_ideal_sizes(sample_list))
+# present_tab_sched(schedule(sample_3), sample_3)
 
 # print(assign_day_offs(sample))
 # new_sched = schedule(sample)
