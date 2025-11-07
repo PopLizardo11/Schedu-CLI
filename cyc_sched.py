@@ -166,7 +166,8 @@ def find_ideal_sizes(sched: list[list[tuple[int]]]) -> list[int]:
     len_columns: list[list[int]] =  parse_columns(str_sched)
     
     # finding the largest length
-    ideal_sizes: list[int] = [len(sched), ]
+    sched_size = len(sched)
+    ideal_sizes: list[int] = [len(str(sched_size)), ]
     for sizes in len_columns:
         max_size = sizes[0]
         for size in sizes:
@@ -176,8 +177,8 @@ def find_ideal_sizes(sched: list[list[tuple[int]]]) -> list[int]:
     return ideal_sizes
 
 # Custom table function
-def present_table_sched(sched: list[list[tuple[int]]], hrs: list[tuple[int]]) -> str:
-    pass
+def present_table_sched(sched: list[list[tuple[int]]], hrs: list[tuple[int]]) -> None:
+    pass    
 
 # TEST
 
