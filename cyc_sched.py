@@ -4,6 +4,7 @@
 from typing import *
 from colorama import Fore, Back, Style, init
 from tabulate import tabulate
+from termcolor import colored, cprint
 
 
 sample_list = [
@@ -178,13 +179,42 @@ def find_ideal_sizes(sched: list[list[tuple[int]]]) -> list[int]:
 # Custom table function
 # the sizing is still done
 # can color the day offs
-def present_table_sched(sched: list[list[tuple[int]]], hrs: list[tuple[int]]) -> None:
-    pass
+def present_table_sched(sched: list[list[tuple[int]]], size: list[int], color: Optional[str]="red") -> None:
+    per_name = "Employee"
+    header: str = f"|   {per_name} |"
+    bound_size = len(per_name) + 3
+    header_bound: str = "|" + "-"*bound_size + ":|"
+    body: list[str] = []
+    body_count = len(sched)
+    
+    for s in size:
+        header += "  " + " "*s + " |"
+    for s in size:
+        bnd_size = s + 2
+        header_bound += "-"*bnd_size + ":" + "|"
+    for b in range(body_count):
+        adj_b = b + 1
+        b_str_size = len(str(adj_b))
+        space_size = bound_size - b_str_size
+        body.append("|" + " "*space_size + f"{adj_b} " + "|")
+    for hrs in sched:
+        for h in hrs:
+            pass
+
+    print(header)
+    print(header_bound)
+    for row in body:
+        print(row)
 
 # TEST
 
-print(find_ideal_sizes(sample_list))
-present_tab_sched(schedule(sample), sample)
+# print(find_ideal_sizes(sample_list))
+# present_tab_sched(schedule(sample), sample)
+
+sample_sched = schedule(sample)
+sample_size = find_ideal_sizes(sample_sched)
+present_table_sched(sample_sched, sample_size)
+print(colored("hello ", "red") + "world")
 
 # print(assign_day_offs(sample))
 # new_sched = schedule(sample)
