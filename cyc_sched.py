@@ -5,6 +5,7 @@ from typing import *
 from colorama import Fore, Back, Style, init
 from tabulate import tabulate
 from termcolor import colored, cprint
+import time
 
 
 sample_list = [
@@ -40,13 +41,13 @@ sample_2 = [
 ]
 
 sample_3 = [
+    (1,36),
+    (1,54),
+    (1,34),
+    (1,47),
+    (1,50),
     (1,40),
-    (1,100),
-    (1,32),
-    (1,32),
-    (1,24),
-    (1,16),
-    (1,8),
+    (1,49),
 ]
 
 
@@ -188,7 +189,7 @@ def present_table_sched(sched: list[list[tuple[int]]], size: list[int], color: O
     body_count = len(sched)
     
     for s in size:
-        header += "  " + " "*s + " |"
+        header += " "*2 + " "*s + " |"
     for s in size:
         bnd_size = s + 2
         header_bound += "-"*bnd_size + ":" + "|"
@@ -197,13 +198,18 @@ def present_table_sched(sched: list[list[tuple[int]]], size: list[int], color: O
         b_str_size = len(str(adj_b))
         space_size = bound_size - b_str_size
         body.append("|" + " "*space_size + f"{adj_b} " + "|")
-    for hrs in sched:
-        for h in hrs:
-            pass
+    for i, hrs in enumerate(sched):
+        for col_i, h in enumerate(hrs):
+            h_str_size = len(str(h[1]))
+            b_cell_factor = 2 + (size[col_i]-h_str_size)
+            b_cell = " "*b_cell_factor + f"{h[1]} "
+            body[i] += b_cell + "|" if h[0] == 1 else colored(b_cell, color) + "|"
 
     print(header)
+    time.sleep(0.05)
     print(header_bound)
     for row in body:
+        time.sleep(0.05)
         print(row)
 
 # TEST
@@ -214,7 +220,6 @@ def present_table_sched(sched: list[list[tuple[int]]], size: list[int], color: O
 sample_sched = schedule(sample)
 sample_size = find_ideal_sizes(sample_sched)
 present_table_sched(sample_sched, sample_size)
-print(colored("hello ", "red") + "world")
 
 # print(assign_day_offs(sample))
 # new_sched = schedule(sample)
