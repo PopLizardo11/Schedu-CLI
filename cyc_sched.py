@@ -80,20 +80,17 @@ def assign_day_offs(hrs: list[tuple[int]]) -> list[tuple[int]]:
             hrs = [mark_day(day, h_pair[1], day_off) for day, h_pair in enumerate(hrs)]
     return hrs
 
-def parse_columns(list):
-    # only works on same size lists
-    # this assumes that the input is an nxn matrix
-    columns = [[] for i in range(len(list[0]))]
-
-    for hrs in list:
-        for i, h in enumerate(hrs):
-            columns[i].append(h) 
- 
+def parse_columns(matrix: list[list[any]]) -> list[list[any]]:
+    # only works on an n x n matrix 
+    columns: list[list[any]] = [[] for i in range(len(matrix[0]))]
+    for row in matrix:
+        for i, r in enumerate(row):
+            columns[i].append(r) 
     return columns
 
-def extract_hrs(list):
-    extracted_hrs = [[] for i in range(len(list))]
-    for i, hrs in enumerate(list):
+def extract_hrs(matrix: list[list[tuple[int]]]) -> list[list[int]]:
+    extracted_hrs: list[list[int]] = [[] for i in range(len(matrix))]
+    for i, hrs in enumerate(matrix):
         for h in hrs:
             if h[1] != 0:
                 extracted_hrs[i].append(h[0]) 
@@ -101,16 +98,13 @@ def extract_hrs(list):
     
     return extracted_hrs
 
-# print(parse_columns(sample_list))
-# print(extract_hrs(parse_columns(sample_list)))
-
-def eval_sched(extracted_hrs, req_hrs):
-    hrs_sum = []
+def eval_sched(extracted_hrs: list[list[int]], req_hrs: list[tuple[int]]) -> bool:
+    hrs_sum: list[int] = []
     for hrs in extracted_hrs:
         hrs_sum.append(sum(hrs))
     return True if hrs_sum == req_hrs else False
 
-def schedule(hrs):
+def schedule(hrs: list[tuple[int]]) -> list[list[tuple[int]]]:
     req_hrs = [h[1] for h in hrs]
     sched = []
     while True:
@@ -135,7 +129,7 @@ def present_sched(sched, hrs):
             stf += (f"{h[1]} ")
         print(stf)
 
-def present_tab_sched(sched, hrs):
+def tabulate_sched(sched, hrs):
     req_hrs = ["" for h in hrs]
     req_hrs = ["Employee"] + req_hrs
     sched_hrs = [[] for h in sched]
@@ -178,9 +172,7 @@ def find_ideal_sizes(sched: list[list[tuple[int]]]) -> list[int]:
     
     return ideal_sizes
 
-# Custom table function
-# the sizing is still done
-# can color the day offs
+
 def present_table_sched(sched: list[list[tuple[int]]], size: list[int], color: Optional[str]="red") -> None:
     per_name = "Employee"
     header: str = f"|   {per_name} |"
