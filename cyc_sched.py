@@ -1,11 +1,8 @@
-# update the algorithm from time to time
-# function for cyclical scheduling (two consecutive days)
-# from tabulate import tabulate
+import time
 from typing import *
 from colorama import Fore, Back, Style, init
 from tabulate import tabulate
 from termcolor import colored, cprint
-import time
 
 
 sample_list = [
@@ -60,23 +57,27 @@ to_columns = [
     [1,2,3,4,5],
 ]
 
-def mark_day(day, h, day_off):
-    return (0, h[1]) if day in day_off else (1, h[1])
+def mark_day(day: int, hour: int, day_off: tuple[int]) -> tuple[int]:
+    return (0, hour) if day in day_off else (1, hour)
 
-def minus_step(h):
-    return (h[0], h[1]-1) if (h[0] == 1 and h[1] != 0) else (h[0], h[1])
+def minus_step(h_pair: tuple[int]) -> tuple[int]:
+    is_minusable: bool = (h_pair[0] == 1 and h_pair[1] != 0)
+    minused: tuple[int] = (h_pair[0], h_pair[1]-1) 
+    return minused if is_minusable else h_pair
 
-def assign_day_offs(hrs):
-    day_count = len(hrs)
-    least = hrs[0][1] + hrs[1][1]
-    day_off = (0, 1)
+def assign_day_offs(hrs: list[tuple[int]]) -> list[tuple[int]]:
+    day_count: int = len(hrs)
+    least_sum: int = hrs[0][1] + hrs[1][1]
+    day_off: tuple[int] = (0, 1)
     for i in range(day_count):
-        curr = hrs[i][1] + hrs[(i+1) if i+1 != day_count else 0][1] 
-        if curr < least:
-            least = curr
+        curr_hr: int = hrs[i][1] 
+        next_curr_hr: int = hrs[(i+1) if i+1 != day_count else 0][1] 
+        curr_sum: int = curr_hr + next_curr_hr
+        if curr_sum < least_sum:
+            least_sum = curr_sum
             day_off = (i, (i+1) if i+1 != day_count else 0)
         if (i+1) == len(hrs):
-            hrs = [mark_day(day, h, day_off) for day, h in enumerate(hrs)]
+            hrs = [mark_day(day, h_pair[1], day_off) for day, h_pair in enumerate(hrs)]
     return hrs
 
 def parse_columns(list):
