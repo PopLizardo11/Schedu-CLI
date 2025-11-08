@@ -146,14 +146,30 @@ def tabulate_sched(sched, hrs):
 
     print(Fore.YELLOW + table)
 
-def total_staff_days():
-    pass
+def total_employees(sched: list[list[tuple[int]]]) -> int:
+    return len(sched)
 
-def expected_full_time():
-    pass
+def expected_full_time(req_hrs: list[tuple[int]]) -> int:
+    week_length = len(req_hrs)-2
+    req_hrs_sum: int = 0
+    for h in req_hrs:
+        req_hrs_sum += h[1]
+    return req_hrs_sum/week_length
 
-def count_status_types() -> dict[str, int]:
-    pass
+def count_job_cat(sched: list[list[tuple[int]]]) -> dict[str, int]:
+    extracted_rem_hrs: list[list[int]] = [[] for i in range(len(sched))]
+    for i, hrs in enumerate(sched):
+        for h in hrs:
+            extracted_rem_hrs[i].append(h[1]) 
+    
+    job_cat: dict[str, int] = {"full_time": 0, "part_time": 0}
+    for rem_hrs in extracted_rem_hrs:
+        if all(rem_hrs):
+            job_cat["full_time"] += 1
+            continue
+        job_cat["part_time"] += 1
+    return job_cat
+
 
 def find_ideal_sizes(sched: list[list[tuple[int]]]) -> list[int]:
     str_sched: list[list[tuple[int]]] = [[] for n in range(len(sched))]
@@ -213,6 +229,9 @@ def present_table_sched(sched: list[list[tuple[int]]], size: list[int], color: O
 sample_sched = schedule(sample)
 sample_size = find_ideal_sizes(sample_sched)
 present_table_sched(sample_sched, sample_size)
+print(total_employees(sample_sched))
+print(expected_full_time(sample))
+print(count_job_cat(sample_sched))
 
 # print(assign_day_offs(sample))
 # new_sched = schedule(sample)
