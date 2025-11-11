@@ -105,20 +105,20 @@ def eval_sched(extracted_hrs: list[list[int]], req_hrs: list[tuple[int]]) -> boo
     return True if hrs_sum == req_hrs else False
 
 def schedule(hrs: list[tuple[int]]) -> list[list[tuple[int]]]:
-    req_hrs = [h[1] for h in hrs]
-    sched = []
+    req_hrs: list[int] = [h[1] for h in hrs]
+    sched: list[list[tuple[int]]] = []
     while True:
-        hrs = assign_day_offs(hrs)
+        hrs: list[tuple[int]] = assign_day_offs(hrs)
         sched.append(hrs)
-        curr_col = parse_columns(sched)
-        extracted_hrs = extract_hrs(curr_col)
+        curr_col: list[list[tuple[int]]] = parse_columns(sched)
+        extracted_hrs: list[list[int]] = extract_hrs(curr_col)
         if eval_sched(extracted_hrs, req_hrs):
             break
         hrs = [minus_step(h) for h in hrs]
     return sched
 
-def present_sched(sched, hrs):
-    req_hrs = [h[1] for h in hrs]
+def present_sched_old(sched, hrs) -> None:
+    req_hrs: list[int] = [h[1] for h in hrs]
     print(f"{req_hrs} \n")
     for i, hrs in enumerate(sched):
         stf = f"Staff {i+1}: "
@@ -129,7 +129,7 @@ def present_sched(sched, hrs):
             stf += (f"{h[1]} ")
         print(stf)
 
-def tabulate_sched(sched, hrs):
+def tabulate_sched_old(sched, hrs):
     req_hrs = ["" for h in hrs]
     req_hrs = ["Employee"] + req_hrs
     sched_hrs = [[] for h in sched]
@@ -221,23 +221,10 @@ def present_table_sched(sched: list[list[tuple[int]]], size: list[int], color: O
         time.sleep(0.05)
         print(row)
 
-# TEST
-
-# print(find_ideal_sizes(sample_list))
-# present_tab_sched(schedule(sample), sample)
-
-sample_sched = schedule(sample)
-sample_size = find_ideal_sizes(sample_sched)
-present_table_sched(sample_sched, sample_size)
-print(total_employees(sample_sched))
-print(expected_full_time(sample))
-print(count_job_cat(sample_sched))
-
-# print(assign_day_offs(sample))
-# new_sched = schedule(sample)
-# sched_2 = schedule(sample_2)
-# sched_3 = schedule(sample_3)
-# # present_sched(new_sched) 
-# present_sched(sched_2, sample_2)
-# present_sched(sched_3, sample_3)
-
+if __name__ == "main":
+    sample_sched = schedule(sample)
+    sample_size = find_ideal_sizes(sample_sched)
+    present_table_sched(sample_sched, sample_size)
+    print(total_employees(sample_sched))
+    print(expected_full_time(sample))
+    print(count_job_cat(sample_sched))
